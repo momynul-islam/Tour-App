@@ -1,0 +1,25 @@
+extends base
+
+block append head
+    link(rel='stylesheet' href='/css/bookings.css')
+
+block content
+  .container
+    h1 My Bookings
+
+    if bookings.length > 0
+      ul.bookings-list
+        each booking in bookings
+          li.booking-item
+            .booking-info
+              h2 #{booking.tour.name}
+              p Booking Price: $#{booking.price}
+              p Booking Date: #{booking.createdAt}
+              if booking.paid
+                p.status.paid Paid
+              else
+                p.status.not-paid Not Paid
+    else
+      p No bookings found.
+
+    a.btn(href="/tours") Browse More Tours

@@ -1,0 +1,19 @@
+extends base
+
+block append head
+    link(rel='stylesheet' href='/css/tourCard.css')
+
+block content 
+    .tourContainer 
+        each tour in tours 
+            .tour-card(data-url=`/api/v1/tours/${tour._id}`)
+                div 
+                    img.cover-image(src=`/img/tours/${tour.coverImage}` alt=`${tour.name} Cover Image`)
+                .tour-info
+                    h2.tour-name= tour.name
+                    p.tour-duration Duration: #{tour.duration}
+                    p.tour-price Price: #{tour.price}
+                    .button-group
+                        button.details-button Details
+                        button.details-button#deleteButton Delete
+

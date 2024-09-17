@@ -1,0 +1,39 @@
+extends base
+
+block append head
+    link(rel='stylesheet' href='/css/profile.css')
+
+block content
+    .profile-container
+        .profile-row
+            .profile-info-section
+                h2 User Information
+                form
+                    .profile-picture
+                        img(src=`/img/users/${user.photo}` alt="Profile Picture")
+                        input#photo(type="file" name="photo" accept="image/*")
+                    .profile-info
+                        .form-group
+                            label(for="name") Name:
+                            input#name(type="text" name="name" placeholder="Enter your name" value=user.name required) 
+                        .form-group
+                            label(for="email") Email:
+                            input#email(type="email" name="email" placeholder="Enter your email" value=user.email required)
+                        .form-group
+                            button.btn.updateProfileButton(type="submit") Update Profile
+            .update-password-section
+                h2 Update Password
+                form
+                    .form-group
+                        label(for="currentPassword") Current Password:
+                        input#currentPassword(type="password" name="currentPassword" placeholder="Enter current password" required)
+                    .form-group
+                        label(for="password") New Password:
+                        input#password(type="password" name="password" placeholder="Enter new password" required)
+                    .form-group
+                        label(for="confirmPassword") Confirm New Password:
+                        input#confirmPassword(type="password" name="confirmPassword" placeholder="Confirm new password" required)
+                    .form-group
+                        button.btn.updatePasswordButton(type="submit") Update Password
+        p.back-link
+            a(href="/") Back to Dashboard

@@ -1,0 +1,27 @@
+extends base
+
+block append head
+    link(rel='stylesheet' href='/css/signup.css')
+
+block content 
+    .signup-container
+        .signup-form
+            h2 Sign Up
+            form
+                .form-group
+                    label(for="name") Name:
+                    input#name(type="text" name="name" placeholder="Enter your name" required)
+                .form-group
+                    label(for="email") Email:
+                    input#email(type="email" name="email" placeholder="Enter your email" required)
+                .form-group
+                    label(for="password") Password:
+                    input#password(type="password" name="password" placeholder="Enter your password" required)
+                .form-group
+                    label(for="confirmPassword") Confirm Password:
+                    input#confirmPassword(type="password" name="confirmPassword" placeholder="Confirm your password" required)
+                .form-group
+                    button.btn.signupButton(type="submit") Sign Up
+            p.login-link
+                | Already have an account? 
+                a(href="/login") Login

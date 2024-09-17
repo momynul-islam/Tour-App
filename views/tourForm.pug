@@ -1,0 +1,38 @@
+extends base
+
+block append head
+    link(rel='stylesheet' href='/css/tourForm.css')
+
+block content 
+    h1 Create a New Tour
+    form
+        div.form-group
+            label(for="name") Tour Name
+            input#name(type="text" name="name" required)
+        
+        div.form-group
+            label(for="price") Price
+            input#price(type="number" step="0.01" name="price" required)
+        
+        div.form-group
+            label(for="duration") Duration
+            input#duration(type="text" name="duration" required)
+        
+        div.form-group
+            label(for="description") Description
+            textarea#description(name="description" rows="5" required)
+
+        .form-group
+          label(for="locations") Locations:
+          input#locations(type="text" name="locations" placeholder="Enter your locations (seperated by comma)" required)
+        
+        div.form-group
+            label(for="coverImage") Cover Image
+            input#coverImage(type="file" name="coverImage" accept="image/*" required)
+        
+        div.form-group
+            label(for="images") Additional Images
+            input#images(type="file" name="images" accept="image/*" multiple)
+        
+        div.form-group
+            button.createTourButton(type="submit") Create Tour

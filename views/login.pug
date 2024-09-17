@@ -1,0 +1,23 @@
+extends base
+
+block append head
+    link(rel='stylesheet' href='/css/login.css')
+
+block content 
+    .login-container
+        .login-form
+            h2 Login
+            form
+                .form-group
+                    label(for="email") Email:
+                    input#email(type="email" name="email" placeholder="Enter your email" required)
+                .form-group
+                    label(for="password") Password:
+                    input#password(type="password" name="password" placeholder="Enter your password" required)
+                .form-group
+                    button.btn.loginButton(type='submit') Login
+            p.register-link
+                | Don't have an account? 
+                a(href="/signup") Register
+            p.register-link
+                a(href="/forgetPassword") Forget Password?
