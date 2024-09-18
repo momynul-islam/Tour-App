@@ -18,12 +18,7 @@ router
 
 router
   .route("/:tourId")
-  .get(tourController.getTour)
-  .patch(
-    authController.protect,
-    authController.restrictTo("admin", "lead-guide", "guide", "user"),
-    tourController.updateTour
-  )
+  .get(authController.protect, tourController.getTour)
   .delete(
     authController.protect,
     authController.restrictTo("admin", "lead-guide", "guide", "user"),

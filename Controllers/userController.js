@@ -5,16 +5,6 @@ const User = require("../Models/User");
 const catchAsync = require("../Utils/catchAsync");
 const { deleteCoverImage } = require("../Utils/deleteImages");
 
-// const multerStorage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, 'public/img/users');
-//   },
-//   filename: (req, file, cb) => {
-//     const ext = file.mimetype.split('/')[1];
-//     cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
-//   }
-// });
-
 const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req, file, cb) => {
@@ -36,7 +26,6 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
 
   req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
-  console.log(req.file.filename);
 
   await sharp(req.file.buffer)
     .resize(100, 100)
@@ -91,7 +80,7 @@ exports.updateUser = catchAsync(async (req, res, next) => {
     deleteCoverImage(req.user.photo, "users");
     filteredBody.photo = req.file.filename;
   }
-  // 3) Update user document
+
   const updatedUser = await User.findByIdAndUpdate(req.user._id, filteredBody, {
     new: true,
     runValidators: true,

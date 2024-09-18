@@ -4,6 +4,7 @@ const catchAsync = require("../Utils/catchAsync");
 
 exports.getTours = catchAsync(async (req, res, next) => {
   const tours = await Tour.find();
+
   res.status(200).render("home", {
     title: "Home",
     tours: tours,
@@ -28,7 +29,7 @@ exports.getCrateTour = catchAsync(async (req, res, next) => {
 
 exports.getBookings = catchAsync(async (req, res, next) => {
   const bookings = await Booking.find({ user: res.locals.user._id });
-  console.log(bookings);
+
   res.status(200).render("bookings", {
     title: "My bookings",
     bookings,

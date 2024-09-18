@@ -2,8 +2,9 @@
 
 ## Functionality -
 
--- Authenticated
 -> Get All Tour
+
+-- Authenticated
 -> Get Tour Details
 -> Get Bookings
 -> Get Profile Details
@@ -12,7 +13,6 @@
 
 -- Authorized/Restrict to admin, lead-guide, guide
 -> Create Tour
--> Edit Tour
 -> Delete Tour
 
 -- Authentication (using JWT)

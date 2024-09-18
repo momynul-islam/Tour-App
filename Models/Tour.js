@@ -33,14 +33,6 @@ const tourSchema = new mongoose.Schema({
   ],
 });
 
-// tourSchema.pre("save", function (next) {
-//   this.coverImage = this.coverImage.replace("undefined", this._id);
-//   this.images = this.images.map((image) =>
-//     image.replace("undefined", this._id)
-//   );
-//   next();
-// });
-
 const Tour = mongoose.model("Tour", tourSchema);
 
 module.exports = Tour;

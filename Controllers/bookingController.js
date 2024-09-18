@@ -5,10 +5,8 @@ const Booking = require("../Models/Booking");
 const catchAsync = require("../Utils/catchAsync");
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
-  // 1) Get the currently booked tour
   const tour = await Tour.findById(req.params.tourId);
 
-  // 2) Create checkout session
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
@@ -42,19 +40,18 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     }`,
   });
 
-  // 3) Create session as response
   res.status(200).json({
     status: "success",
     url: session.url,
-    session,
   });
 });
 
 exports.createBookingCheckout = catchAsync(async (req, res, next) => {
   const { tour, user, price } = req.query;
-  console.log(req.query);
+
   const newBooking = await Booking.create({ tour, user, price });
-  res.redirect("http://localhost:5000/bookings");
+
+  res.redirect(`${req.protocol}://${req.get("host")}/bookings`);
 });
 
 // const createBookingCheckout = async (session) => {

@@ -1,3 +1,5 @@
+import { showAlert } from "./alert.js";
+
 const tourContainer = document.querySelector(".tourContainer");
 const loginButton = document.querySelector(".loginButton");
 const signupButton = document.querySelector(".signupButton");
@@ -41,8 +43,9 @@ if (createTourButton) {
     const data = await res.json();
     if (data.status == "success") {
       window.location.href = "/";
+      showAlert("success", "Tour created successfully");
     } else {
-      console.log(data);
+      showAlert("error", data.message);
     }
   });
 }
@@ -53,15 +56,28 @@ if (tourContainer) {
     const url = e.target.closest(".tour-card").dataset.url;
 
     if (e.target.id === "deleteButton") {
-      console.log("delete button clicked!");
-      await fetch(`http://localhost:5000${url}`, {
+      const res = await fetch(`http://localhost:5000${url}`, {
         method: "DELETE",
       });
-      window.location.href = "/";
+
+      const data = await res.json();
+
+      if (data.status == "success") {
+        showAlert("success", "Tour deleted successfully");
+        window.location.href = "/";
+      } else {
+        showAlert("error", data.message);
+      }
     } else {
       const res = await fetch(`http://localhost:5000${url}`);
       const data = await res.json();
-      window.location.href = `http://localhost:5000/tours/${url.split("/")[4]}`;
+      if (data.status == "success") {
+        window.location.href = `http://localhost:5000/tours/${
+          url.split("/")[4]
+        }`;
+      } else {
+        showAlert("error", data.message);
+      }
     }
   });
 }
@@ -84,10 +100,11 @@ if (loginButton) {
     const data = await res.json();
 
     if (data.status == "success") {
-      console.log(data);
+      showAlert("success", "Logged in successfully");
       window.location.href = "/";
     } else {
-      console.log("data", data);
+      console.log(data);
+      showAlert("error", data.message);
     }
   });
 }
@@ -112,9 +129,10 @@ if (signupButton) {
     const data = await res.json();
 
     if (data.status == "success") {
+      showAlert("success", "Signup successful");
       window.location.href = "/";
     } else {
-      console.log(data);
+      showAlert("error", data.message);
     }
   });
 }
@@ -122,9 +140,14 @@ if (signupButton) {
 if (logoutButton) {
   logoutButton.addEventListener("click", async function (e) {
     e.preventDefault();
-
+    console.log("clidck");
     const res = await fetch("/api/v1/users/logout");
     const data = await res.json();
+
+    console.log(data);
+    if (data.status == "success") showAlert("success", "Logout successful");
+    else showAlert("error", data.message);
+
     window.location.href = "/";
   });
 }
@@ -148,6 +171,11 @@ if (updateProfileButton) {
     });
 
     const data = await res.json();
+
+    if (data.status == "success")
+      showAlert("success", "Profile updated successfully");
+    else showAlert("error", data.message);
+
     window.location.href = "/profile";
   });
 }
@@ -169,6 +197,11 @@ if (updatePasswordButton) {
     });
 
     const data = await res.json();
+
+    if (data.status == "success")
+      showAlert("success", "Password updated successfully");
+    else showAlert("error", data.message);
+
     window.location.href = "/profile";
   });
 }
@@ -188,20 +221,20 @@ if (sendResetLinkButton) {
     });
 
     const data = await res.json();
+
     if (data.status == "success") {
+      showAlert("success", "An email sent to you with reset link");
       window.location.href = "/login";
     } else {
-      console.log(data);
+      showAlert("error", data.message);
     }
   });
 }
 
 if (resetPasswordButton) {
-  console.log(resetPasswordButton, "reseting...");
   resetPasswordButton.addEventListener("click", async function (e) {
     e.preventDefault();
 
-    console.log("reset password");
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
     const token = window.location.pathname.split("/")[5];
@@ -215,10 +248,12 @@ if (resetPasswordButton) {
     });
 
     const data = await res.json();
+
     if (data.status == "success") {
+      showAlert("success", "Password reset successful");
       window.location.href = "/login";
     } else {
-      console.log(data);
+      showAlert("error", data.message);
     }
   });
 }
@@ -228,7 +263,6 @@ if (bookingButton) {
     e.target.textContent = "Processing...";
     const { tourId } = e.target.dataset;
 
-    // 1) Get checkout session from API
     const res = await fetch(`/api/v1/bookings/checkout-session/${tourId}`);
     e.target.textContent = "Book Now";
     const data = await res.json();
@@ -236,7 +270,7 @@ if (bookingButton) {
     if (data.status == "success") {
       window.location = data.url;
     } else {
-      console.log(data);
+      showAlert("error", data.message);
     }
   });
 }

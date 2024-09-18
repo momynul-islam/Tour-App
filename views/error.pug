@@ -1,0 +1,11 @@
+extends base
+
+block append head
+    link(rel='stylesheet' href='/css/error.css')
+
+block content
+  .container
+    h1 Error #{statusCode}
+    p=message
+
+    a.btn(href="/") Go Back to Home

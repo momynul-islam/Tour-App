@@ -64,6 +64,7 @@ exports.resizeTourImages = catchAsync(async (req, res, next) => {
 
 exports.getAllTours = catchAsync(async (req, res, next) => {
   const tours = await Tour.find();
+
   res.status(200).json({
     status: "success",
     data: tours,
@@ -84,6 +85,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
 exports.createTour = catchAsync(async (req, res, next) => {
   const { name, price, description, duration, coverImage, images, locations } =
     req.body;
+
   const newTour = await Tour.create({
     name,
     price,
@@ -102,20 +104,16 @@ exports.createTour = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.updateTour = catchAsync(async (req, res, next) => {
-  res.status(200).json({
-    status: "success",
-    data: "updated tour",
-  });
-});
-
 exports.deleteTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.tourId);
+
   deleteCoverImage(tour.coverImage, "tours");
   deleteImages(tour.images, "tours");
+
   await Tour.findByIdAndDelete(req.params.tourId);
 
   res.status(204).json({
     status: "success",
+    message: "Tour deleted successfully",
   });
 });

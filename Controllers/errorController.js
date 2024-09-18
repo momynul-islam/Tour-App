@@ -25,27 +25,42 @@ const handleJWTError = () =>
 const handleJWTExpiredError = () =>
   new AppError("Your token has expired! Please log in again.", 401);
 
-const sendErrorDev = (err, res) => {
-  // console.log(err);
-  return res.status(err.statusCode).json({
-    status: "Error",
-    message: err.message,
-  });
-};
-
-const sendErrorProd = (err, res) => {
-  if (err.isOperational) {
+const sendErrorDev = (err, req, res) => {
+  if (req.originalUrl.startsWith("/api")) {
     return res.status(err.statusCode).json({
-      status: "error",
+      status: "Error",
       message: err.message,
     });
   }
 
-  // Programming or other unknown error: don't leak error details
-  console.error("ERROR 💥", err);
-  return res.status(500).json({
-    status: "error",
-    message: "Something went very wrong!",
+  res.status(err.statusCode).render("error", {
+    title: "Error",
+    message: err.message,
+    statusCode: err.statusCode,
+  });
+};
+
+const sendErrorProd = (err, req, res) => {
+  if (req.originalUrl.startsWith("/api")) {
+    if (err.isOperational) {
+      return res.status(err.statusCode).json({
+        status: "error",
+        message: err.message,
+      });
+    }
+
+    // Programming or other unknown error: don't leak error details
+    console.error("ERROR 💥", err);
+    return res.status(500).json({
+      status: "error",
+      message: "Something went very wrong!",
+    });
+  }
+
+  res.status(err.statusCode).render("error", {
+    title: "Error",
+    message: err.message,
+    statusCode: err.statusCode,
   });
 };
 
@@ -53,17 +68,18 @@ module.exports = (err, req, res, next) => {
   if (err.name === "CastError") err = handleCastErrorDB(err);
   if (err.code === 11000) err = handleDuplicateFieldsDB(err);
   if (err.name === "ValidationError") err = handleValidationErrorDB(err);
-  // if (err.name === "JsonWebTokenError") err = handleJWTError();
-  // if (err.name === "TokenExpiredError") err = handleJWTExpiredError();
+  if (err.name === "JsonWebTokenError") err = handleJWTError();
+  if (err.name === "TokenExpiredError") err = handleJWTExpiredError();
 
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
+  err.message = err.message || "Something went wrong!";
 
   if (process.env.NODE_ENV === "development") {
-    sendErrorDev(err, res);
+    sendErrorDev(err, req, res);
   }
 
   if (process.env.NODE_ENV === "production") {
-    sendErrorProd(err, res);
+    sendErrorProd(err, req, res);
   }
 };
