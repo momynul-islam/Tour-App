@@ -35,14 +35,17 @@ if (createTourButton) {
     formData.append("locations", locations);
     formData.append("coverImage", coverImage);
 
-    const res = await fetch("/api/v1/tours/", {
-      method: "POST",
-      body: formData,
-    });
+    const res = await fetch(
+      "https://tour-app-zt4w.onrender.com/api/v1/tours/",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
     const data = await res.json();
     if (data.status == "success") {
-      window.location.href = "/";
+      window.location.href = "https://tour-app-zt4w.onrender.com/";
       showAlert("success", "Tour created successfully");
     } else {
       showAlert("error", data.message);
@@ -56,7 +59,7 @@ if (tourContainer) {
     const url = e.target.closest(".tour-card").dataset.url;
 
     if (e.target.id === "deleteButton") {
-      const res = await fetch(`/${url}`, {
+      const res = await fetch(`https://tour-app-zt4w.onrender.com/${url}`, {
         method: "DELETE",
       });
 
@@ -64,16 +67,18 @@ if (tourContainer) {
 
       if (data.status == "success") {
         showAlert("success", "Tour deleted successfully");
-        window.location.href = "/";
+        window.location.href = "https://tour-app-zt4w.onrender.com/";
       } else {
         showAlert("error", data.message);
       }
     } else {
-      const res = await fetch(`/${url}`);
+      const res = await fetch(`https://tour-app-zt4w.onrender.com/${url}`);
       const data = await res.json();
 
       if (data.status == "success") {
-        window.location.href = `/tours/${url.split("/")[4]}`;
+        window.location.href = `https://tour-app-zt4w.onrender.com/tours/${
+          url.split("/")[4]
+        }`;
       } else {
         showAlert("error", data.message);
       }
@@ -88,21 +93,23 @@ if (loginButton) {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    const res = await fetch("/api/v1/users/login", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
+    const res = await fetch(
+      "https://tour-app-zt4w.onrender.com/api/v1/users/login",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      }
+    );
 
     const data = await res.json();
 
     if (data.status == "success") {
       showAlert("success", "Logged in successfully");
-      window.location.href = "/";
+      window.location.href = "https://tour-app-zt4w.onrender.com/";
     } else {
-      console.log(data);
       showAlert("error", data.message);
     }
   });
@@ -117,19 +124,22 @@ if (signupButton) {
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
 
-    const res = await fetch("/api/v1/users/signup", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ name, email, password, confirmPassword }),
-    });
+    const res = await fetch(
+      "https://tour-app-zt4w.onrender.com/api/v1/users/signup",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password, confirmPassword }),
+      }
+    );
 
     const data = await res.json();
 
     if (data.status == "success") {
       showAlert("success", "Signup successful");
-      window.location.href = "/";
+      window.location.href = "https://tour-app-zt4w.onrender.com/";
     } else {
       showAlert("error", data.message);
     }
@@ -140,14 +150,15 @@ if (logoutButton) {
   logoutButton.addEventListener("click", async function (e) {
     e.preventDefault();
     console.log("clidck");
-    const res = await fetch("/api/v1/users/logout");
+    const res = await fetch(
+      "https://tour-app-zt4w.onrender.com/api/v1/users/logout"
+    );
     const data = await res.json();
 
-    console.log(data);
     if (data.status == "success") showAlert("success", "Logout successful");
     else showAlert("error", data.message);
 
-    window.location.href = "/";
+    window.location.href = "https://tour-app-zt4w.onrender.com/";
   });
 }
 
@@ -164,10 +175,13 @@ if (updateProfileButton) {
     formData.append("email", email);
     formData.append("photo", photo);
 
-    const res = await fetch("/api/v1/users/updateMe", {
-      method: "PATCH",
-      body: formData,
-    });
+    const res = await fetch(
+      "https://tour-app-zt4w.onrender.com/api/v1/users/updateMe",
+      {
+        method: "PATCH",
+        body: formData,
+      }
+    );
 
     const data = await res.json();
 
@@ -175,7 +189,7 @@ if (updateProfileButton) {
       showAlert("success", "Profile updated successfully");
     else showAlert("error", data.message);
 
-    window.location.href = "/profile";
+    window.location.href = "https://tour-app-zt4w.onrender.com/profile";
   });
 }
 
@@ -187,13 +201,16 @@ if (updatePasswordButton) {
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
 
-    const res = await fetch("/api/v1/users/updateMyPassword", {
-      method: "PATCH",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ currentPassword, password, confirmPassword }),
-    });
+    const res = await fetch(
+      "https://tour-app-zt4w.onrender.com/api/v1/users/updateMyPassword",
+      {
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ currentPassword, password, confirmPassword }),
+      }
+    );
 
     const data = await res.json();
 
@@ -201,7 +218,7 @@ if (updatePasswordButton) {
       showAlert("success", "Password updated successfully");
     else showAlert("error", data.message);
 
-    window.location.href = "/profile";
+    window.location.href = "https://tour-app-zt4w.onrender.com/profile";
   });
 }
 
@@ -211,19 +228,22 @@ if (sendResetLinkButton) {
 
     const email = document.getElementById("email").value;
 
-    const res = await fetch("/api/v1/users/forgotPassword", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ email }),
-    });
+    const res = await fetch(
+      "https://tour-app-zt4w.onrender.com/api/v1/users/forgotPassword",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      }
+    );
 
     const data = await res.json();
 
     if (data.status == "success") {
       showAlert("success", "An email sent to you with reset link");
-      window.location.href = "/login";
+      window.location.href = "https://tour-app-zt4w.onrender.com/login";
     } else {
       showAlert("error", data.message);
     }
@@ -238,19 +258,22 @@ if (resetPasswordButton) {
     const confirmPassword = document.getElementById("confirmPassword").value;
     const token = window.location.pathname.split("/")[5];
 
-    const res = await fetch(`/api/v1/users/resetPassword/${token}`, {
-      method: "PATCH",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ password, confirmPassword }),
-    });
+    const res = await fetch(
+      `https://tour-app-zt4w.onrender.com/api/v1/users/resetPassword/${token}`,
+      {
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ password, confirmPassword }),
+      }
+    );
 
     const data = await res.json();
 
     if (data.status == "success") {
       showAlert("success", "Password reset successful");
-      window.location.href = "/login";
+      window.location.href = "https://tour-app-zt4w.onrender.com/login";
     } else {
       showAlert("error", data.message);
     }
@@ -262,7 +285,9 @@ if (bookingButton) {
     e.target.textContent = "Processing...";
     const { tourId } = e.target.dataset;
 
-    const res = await fetch(`/api/v1/bookings/checkout-session/${tourId}`);
+    const res = await fetch(
+      `https://tour-app-zt4w.onrender.com/api/v1/bookings/checkout-session/${tourId}`
+    );
     e.target.textContent = "Book Now";
     const data = await res.json();
 
