@@ -12,7 +12,7 @@ block content
         each booking in bookings
           li.booking-item
             .booking-info
-              h2 #{booking?.tour?.name}
+              h2=booking?.tour?.name
               p Booking Price: $#{booking?.price}
               p Booking Date: #{booking?.createdAt}
               if booking?.paid
