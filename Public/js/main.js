@@ -35,17 +35,14 @@ if (createTourButton) {
     formData.append("locations", locations);
     formData.append("coverImage", coverImage);
 
-    const res = await fetch(
-      "https://tour-app-zt4w.onrender.com/api/v1/tours/",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-
+    const res = await fetch("https://tour-app-zt4w.onrender.com/api/v1/tours", {
+      method: "POST",
+      body: formData,
+    });
     const data = await res.json();
+
     if (data.status == "success") {
-      window.location.href = "https://tour-app-zt4w.onrender.com/";
+      window.location.href = "https://tour-app-zt4w.onrender.com";
       showAlert("success", "Tour created successfully");
     } else {
       showAlert("error", data.message);
@@ -59,17 +56,15 @@ if (tourContainer) {
     const url = e.target.closest(".tour-card").dataset.url;
 
     if (e.target.id === "deleteButton") {
-      const res = await fetch(`https://tour-app-zt4w.onrender.com/${url}`, {
-        method: "DELETE",
-      });
+      try {
+        const res = await fetch(`https://tour-app-zt4w.onrender.com/${url}`, {
+          method: "DELETE",
+        });
 
-      const data = await res.json();
-
-      if (data.status == "success") {
         showAlert("success", "Tour deleted successfully");
         window.location.href = "https://tour-app-zt4w.onrender.com/";
-      } else {
-        showAlert("error", data.message);
+      } catch (err) {
+        showAlert("error", err.message);
       }
     } else {
       const res = await fetch(`https://tour-app-zt4w.onrender.com/${url}`);
@@ -77,7 +72,7 @@ if (tourContainer) {
 
       if (data.status == "success") {
         window.location.href = `https://tour-app-zt4w.onrender.com/tours/${
-          url.split("/")[4]
+          url.split("/")[6]
         }`;
       } else {
         showAlert("error", data.message);
