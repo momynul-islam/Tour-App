@@ -72,7 +72,7 @@ if (tourContainer) {
 
       if (data.status == "success") {
         window.location.href = `https://tour-app-zt4w.onrender.com/tours/${
-          url.split("/")[6]
+          url.split("/")[3]
         }`;
       } else {
         showAlert("error", data.message);
