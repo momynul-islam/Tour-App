@@ -6,7 +6,7 @@ block append head
 block content 
     .tourContainer 
         each tour in tours 
-            .tour-card(data-url=`/api/v1/tours/${tour._id}`)
+            .tour-card(data-url=`api/v1/tours/${tour._id}`)
                 div 
                     img.cover-image(src=`/img/tours/${tour.coverImage}` alt=`${tour.name} Cover Image`)
                 .tour-info
