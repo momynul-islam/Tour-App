@@ -15,12 +15,13 @@ const viewRouter = require("./Routes/viewRoutes");
 const tourRouter = require("./Routes/tourRoutes");
 const userRouter = require("./Routes/userRoutes");
 const bookingRouter = require("./Routes/bookingRoutes");
+const bookingController = require("./Controllers/bookingController");
 const errorController = require("./Controllers/errorController");
 const AppError = require("./Utils/appError");
 
 const app = express();
 
-// app.enable("trust proxy");
+app.enable("trust proxy");
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
@@ -40,6 +41,13 @@ const limiter = rateLimit({
   message: "Too many requests from this IP, please try again in an hour!",
 });
 app.use("/api", limiter);
+
+// stripe webhook
+app.use(
+  "/webhook-checkout",
+  bodyParser.raw({ type: "application/json" }),
+  bookingController.webhookCheckout
+);
 
 // Body parser, reading data from body into req.body
 app.use(bodyParser.json({ limit: "10kb" }));
