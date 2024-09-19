@@ -29,6 +29,7 @@ exports.getCrateTour = catchAsync(async (req, res, next) => {
 
 exports.getBookings = catchAsync(async (req, res, next) => {
   const bookings = await Booking.find({ user: req.user._id });
+  console.log(bookings);
 
   res.status(200).render("bookings", {
     title: "My bookings",

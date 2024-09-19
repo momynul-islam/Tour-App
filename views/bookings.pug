@@ -12,10 +12,10 @@ block content
         each booking in bookings
           li.booking-item
             .booking-info
-              h2=booking?.tour?.name
-              p Booking Price: $#{booking?.price}
-              p Booking Date: #{booking?.createdAt}
-              if booking?.paid
+              h2= booking && booking.tour ? booking.tour.name : 'Tour name not available'
+              p Booking Price: $#{booking && booking.price}
+              p Booking Date: #{booking && booking.createdAt}
+              if booking && booking.paid
                 p.status.paid Paid
               else
                 p.status.not-paid Not Paid
