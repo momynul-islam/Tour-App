@@ -56,7 +56,7 @@ if (tourContainer) {
     const url = e.target.closest(".tour-card").dataset.url;
 
     if (e.target.id === "deleteButton") {
-      const res = await fetch(`http://localhost:5000${url}`, {
+      const res = await fetch(`/${url}`, {
         method: "DELETE",
       });
 
@@ -69,12 +69,11 @@ if (tourContainer) {
         showAlert("error", data.message);
       }
     } else {
-      const res = await fetch(`http://localhost:5000${url}`);
+      const res = await fetch(`/${url}`);
       const data = await res.json();
+
       if (data.status == "success") {
-        window.location.href = `http://localhost:5000/tours/${
-          url.split("/")[4]
-        }`;
+        window.location.href = `/tours/${url.split("/")[4]}`;
       } else {
         showAlert("error", data.message);
       }
