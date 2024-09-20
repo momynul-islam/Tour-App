@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-const mailgun = require("nodemailer-mailgun-transport");
+const mailjet = require("node-mailjet");
 const pug = require("pug");
 const { convert } = require("html-to-text");
 
@@ -8,21 +8,22 @@ module.exports = class Email {
     this.to = user.email;
     this.firstName = user.name.split(" ")[0];
     this.url = url;
-    this.from = `Tour App <no-reply@${process.env.EMAIL_FROM}>`;
+    this.from = `Tour App <no-reply@islammomynul.cod@gmail.com}>`;
   }
 
   newTransport() {
-    // if (process.env.NODE_ENV === "production") {
-    //   // Mailgun // Sendgrid // this part not completed
-    //   return nodemailer.createTransport(
-    //     mailgun({
-    //       auth: {
-    //         api_key: process.env.MAILGUN_API,
-    //         domain: process.env.MAILGUN_DOMAIN,
-    //       },
-    //     })
-    //   );
-    // }
+    if (process.env.NODE_ENV === "production") {
+      // Mailjet // my sendgrid account not working
+      return nodemailer.createTransport({
+        host: process.env.MAILJET_HOST,
+        port: process.env.MAILJET_PORT, // Use 587 for TLS
+        secure: false, // Set to true if you're using port 465
+        auth: {
+          user: process.env.MAILJET_API_KEY,
+          pass: process.env.MAILJET_SECRET_KEY,
+        },
+      });
+    }
 
     return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
