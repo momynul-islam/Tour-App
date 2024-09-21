@@ -8,26 +8,22 @@ module.exports = class Email {
     this.to = user.email;
     this.firstName = user.name.split(" ")[0];
     this.url = url;
-    this.from = `Tour App <no-reply@${
-      process.env.NODE_ENV === "production"
-        ? process.env.MAILJET_EMAIL_FROM
-        : process.env.EMAIL_FROM
-    }>`;
+    this.from = `Tour App <no-reply@${process.env.EMAIL_FROM}>`;
   }
 
   newTransport() {
-    if (process.env.NODE_ENV === "production") {
-      // Mailjet // my sendgrid account not working
-      return nodemailer.createTransport({
-        host: process.env.MAILJET_HOST,
-        port: process.env.MAILJET_PORT, // Use 587 for TLS
-        secure: false, // Set to true if you're using port 465
-        auth: {
-          user: process.env.MAILJET_API_KEY,
-          pass: process.env.MAILJET_SECRET_KEY,
-        },
-      });
-    }
+    // if (process.env.NODE_ENV === "production") {
+    //   // Mailjet // my sendgrid account not working
+    //   return nodemailer.createTransport({
+    //     host: process.env.MAILJET_HOST,
+    //     port: process.env.MAILJET_PORT, // Use 587 for TLS
+    //     secure: false, // Set to true if you're using port 465
+    //     auth: {
+    //       user: process.env.MAILJET_API_KEY,
+    //       pass: process.env.MAILJET_SECRET_KEY,
+    //     },
+    //   });
+    // }
 
     return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
