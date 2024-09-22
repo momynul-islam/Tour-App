@@ -8,8 +8,8 @@ const port = process.env.PORT || 3000;
 
 mongoose
   .connect(process.env.DATABASE)
-  .then((connection) => {
-    console.log("Connected to the database");
+  .then(() => {
+    console.log("Connected to the database.");
     app.listen(port, () => {
       console.log(`Tour-App server listening at port ${port}...`);
     });

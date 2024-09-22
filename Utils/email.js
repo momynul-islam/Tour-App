@@ -53,8 +53,7 @@ module.exports = class Email {
       text: convert(html),
     };
 
-    const mail = await this.newTransport().sendMail(mailOptions);
-    console.log(mail);
+    await this.newTransport().sendMail(mailOptions);
   }
 
   async sendWelcome() {

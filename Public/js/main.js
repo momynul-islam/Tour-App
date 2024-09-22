@@ -144,7 +144,7 @@ if (signupButton) {
 if (logoutButton) {
   logoutButton.addEventListener("click", async function (e) {
     e.preventDefault();
-    console.log("clidck");
+
     const res = await fetch(
       "https://tour-app-zt4w.onrender.com/api/v1/users/logout"
     );
