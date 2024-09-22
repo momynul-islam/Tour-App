@@ -64,7 +64,7 @@ if (tourContainer) {
         const data = await res.json();
 
         if (data?.status === "error") {
-          return showAlert("error", err.message);
+          return showAlert("error", data.message);
         }
 
         showAlert("success", "Tour deleted successfully");
