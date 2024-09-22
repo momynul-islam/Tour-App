@@ -21,7 +21,7 @@ router
   .get(authController.protect, tourController.getTour)
   .delete(
     authController.protect,
-    authController.restrictTo("admin", "lead-guide", "guide", "user"),
+    authController.restrictTo("admin", "lead-guide", "guide"),
     tourController.deleteTour
   );
 
