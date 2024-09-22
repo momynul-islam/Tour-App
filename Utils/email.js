@@ -1,5 +1,4 @@
 const nodemailer = require("nodemailer");
-const mailjet = require("node-mailjet");
 const pug = require("pug");
 const { convert } = require("html-to-text");
 
@@ -10,7 +9,7 @@ module.exports = class Email {
     this.url = url;
     this.from = `${
       process.env.NODE_ENV === "production"
-        ? process.env.MAILJET_EMAIL_FROM
+        ? `Tour-App <${process.env.MAILERSEND_USERNAME}>`
         : process.env.EMAIL_FROM
     }`;
   }
@@ -18,12 +17,12 @@ module.exports = class Email {
   newTransport() {
     if (process.env.NODE_ENV === "production") {
       return nodemailer.createTransport({
-        host: process.env.MAILJET_HOST,
-        port: process.env.MAILJET_PORT,
-        secure: true,
+        host: "smtp.mailersend.net",
+        port: 587,
+        secure: false,
         auth: {
-          user: process.env.MAILJET_API_KEY,
-          pass: process.env.MAILJET_SECRET_KEY,
+          user: process.env.MAILERSEND_USERNAME,
+          pass: process.env.MAILERSEND_PASSWORD,
         },
       });
     }
