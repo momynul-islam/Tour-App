@@ -61,6 +61,12 @@ if (tourContainer) {
           method: "DELETE",
         });
 
+        const data = await res.json();
+
+        if (data?.status === "error") {
+          return showAlert("error", err.message);
+        }
+
         showAlert("success", "Tour deleted successfully");
         window.location.href = "https://tour-app-zt4w.onrender.com/";
       } catch (err) {
