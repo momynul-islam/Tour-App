@@ -62,6 +62,7 @@ if (tourContainer) {
         });
 
         if (!res.ok) {
+          const data = await res.json();
           return showAlert("error", data.message);
         }
 
