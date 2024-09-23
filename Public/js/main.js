@@ -61,10 +61,7 @@ if (tourContainer) {
           method: "DELETE",
         });
 
-        console.log(res);
-        const data = await res.json();
-
-        if (data?.status === "error") {
+        if (!res.ok) {
           return showAlert("error", data.message);
         }
 
