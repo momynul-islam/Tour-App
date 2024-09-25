@@ -1,5 +1,5 @@
 # Tour-App
-**A travel booking site. Making travel simple.**
+**A tour booking site. Making travel simple.**
 
 **Functionality -**
  -  Get All Tour
@@ -26,6 +26,10 @@
 	- Welcome email on successfull signup
 	- Reset token email on reset password 
 
+Technologies - Express js, Multer, Stripe, Mongoose, Pug, Nodemailer.
+  
+**admin_email: test@gmail.com**
+**admin_pass: test1234**
 
 [Live link](https://tour-app-zt4w.onrender.com/) (deployed on render)
 [Source code](https://github.com/momynul-islam/Tour-App)
