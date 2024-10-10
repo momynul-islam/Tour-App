@@ -35,12 +35,12 @@ app.options("*", cors());
 app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
-    "default-src 'self'; " +
-      "img-src 'self' data: https://res.cloudinary.com; " + // Allow images from your domain, Cloudinary, and inline images
-      "script-src 'self'; " + // Only allow scripts from your domain
-      "style-src 'self'; " + // Only allow styles from your domain
-      "font-src 'self'; " + // Only allow fonts from your domain
-      "connect-src 'self';" // Only allow connections from your domain
+    "default-src 'https://tour-app-zt4w.onrender.com/'; " +
+      "img-src 'https://tour-app-zt4w.onrender.com/' data: https://res.cloudinary.com; " + // Allow images from your domain, Cloudinary, and inline images
+      "script-src 'https://tour-app-zt4w.onrender.com/'; " + // Only allow scripts from your domain
+      "style-src 'https://tour-app-zt4w.onrender.com/'; " + // Only allow styles from your domain
+      "font-src 'https://tour-app-zt4w.onrender.com/'; " + // Only allow fonts from your domain
+      "connect-src 'https://tour-app-zt4w.onrender.com/';" // Only allow connections from your domain
   );
   next();
 });
