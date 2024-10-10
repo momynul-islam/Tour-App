@@ -4,7 +4,7 @@ html(lang="en")
     block head
       meta(charset='UTF-8')
       meta(name='viewport' content='width=device-width, initial-scale=1.0')
-      meta(http-equiv="Content-Security-Policy" content="default-src 'https://tour-app-zt4w.onrender.com'; img-src 'https://tour-app-zt4w.onrender.com' https://res.cloudinary.com; script-src 'https://tour-app-zt4w.onrender.com'; style-src 'https://tour-app-zt4w.onrender.com';")
+      meta(http-equiv="Content-Security-Policy" content="default-src *;img-src * 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *")
       link(rel='stylesheet' href='/css/styles.css')
       link(rel='shortcut icon' type='image/png' href='/img/tour_app_logo.png')
       link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
