@@ -31,6 +31,15 @@ app.use(express.static(path.join(__dirname, "Public")));
 app.use(cors());
 app.options("*", cors());
 
+// csp
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "default-src 'self'; img-src 'self' https://res.cloudinary.com;"
+  );
+  next();
+});
+
 // Set security HTTP headers
 app.use(helmet());
 

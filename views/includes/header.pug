@@ -4,7 +4,7 @@ html(lang="en")
     block head
       meta(charset='UTF-8')
       meta(name='viewport' content='width=device-width, initial-scale=1.0')
-      meta(http-equiv="Content-Security-Policy" content="img-src * data: blob:")
+      meta(http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://res.cloudinary.com; script-src 'self'; style-src 'self';")
       link(rel='stylesheet' href='/css/styles.css')
       link(rel='shortcut icon' type='image/png' href='/img/tour_app_logo.png')
       link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
