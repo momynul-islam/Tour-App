@@ -7,7 +7,7 @@ block content
     .container
         .tour-details
             .tour-header
-                img.cover-image(src=`/img/tours/${tour.coverImage}` alt="Tour Cover Image")
+                img.cover-image(src=`${tour.coverImage}` alt="Tour Cover Image")
             .tour-info
                 h1.tour-title=tour.name
                 p.tour-duration Duration: #{tour.duration}days
@@ -25,6 +25,6 @@ block content
             h2 Images
             .image-container
                 each image in tour.images 
-                    img.image(src=`/img/tours/${image}` alt="Tour images")
+                    img.image(src=`${image}` alt="Tour images")
             .book-now
             button.book-btn.bookingButton(data-tour-id=`${tour._id}`) Book Now
