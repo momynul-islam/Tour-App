@@ -1,5 +1,5 @@
 const multer = require("multer");
-const sharp = require("sharp");
+const cloudinary = require("cloudinary").v2;
 const slugify = require("slugify");
 
 const Tour = require("../Models/Tour");
@@ -22,6 +22,13 @@ const upload = multer({
   fileFilter: multerFilter,
 });
 
+// Cloudinary config
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET_KEY,
+});
+
 exports.uploadTourImages = upload.fields([
   { name: "coverImage", maxCount: 1 },
   { name: "images", maxCount: 3 },
@@ -30,32 +37,45 @@ exports.uploadTourImages = upload.fields([
 exports.resizeTourImages = catchAsync(async (req, res, next) => {
   if (!req.files.coverImage || !req.files.images) return next();
 
-  // 1) Cover image
-  req.body.coverImage = `tour-${slugify(
-    req.body.name
-  )}-${Date.now()}-cover.jpeg`;
-  await sharp(req.files.coverImage[0].buffer)
-    .resize(300, 300)
-    .toFormat("jpeg")
-    .jpeg({ quality: 90 })
-    .toFile(`Public/img/tours/${req.body.coverImage}`);
+  // 1) Upload cover image to Cloudinary with resizing
+  const coverImageResult = await new Promise((resolve, reject) => {
+    cloudinary.uploader
+      .upload_stream(
+        {
+          folder: "tours",
+          transformation: [{ width: 800, height: 600, crop: "fill" }],
+        },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        }
+      )
+      .end(req.files.coverImage[0].buffer);
+  });
 
-  // 2) Images
+  req.body.coverImage = coverImageResult.secure_url;
+
+  // 2) Upload other images to Cloudinary with resizing
   req.body.images = [];
 
   await Promise.all(
     req.files.images.map(async (file, i) => {
-      const filename = `tour-${slugify(req.body.name)}-${Date.now()}-${
-        i + 1
-      }.jpeg`;
+      const imageResult = await new Promise((resolve, reject) => {
+        cloudinary.uploader
+          .upload_stream(
+            {
+              folder: "tours",
+              transformation: [{ width: 300, height: 300, crop: "fill" }],
+            },
+            (error, result) => {
+              if (error) return reject(error);
+              resolve(result);
+            }
+          )
+          .end(file.buffer);
+      });
 
-      await sharp(file.buffer)
-        .resize(300, 300)
-        .toFormat("jpeg")
-        .jpeg({ quality: 90 })
-        .toFile(`Public/img/tours/${filename}`);
-
-      req.body.images.push(filename);
+      req.body.images.push(imageResult.secure_url);
     })
   );
 
