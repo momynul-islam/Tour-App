@@ -35,7 +35,12 @@ app.options("*", cors());
 app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
-    "default-src 'self'; img-src 'self' https://res.cloudinary.com;"
+    "default-src 'self'; " +
+      "img-src 'self' data: https://res.cloudinary.com; " + // Allow images from your domain, Cloudinary, and inline images
+      "script-src 'self'; " + // Only allow scripts from your domain
+      "style-src 'self'; " + // Only allow styles from your domain
+      "font-src 'self'; " + // Only allow fonts from your domain
+      "connect-src 'self';" // Only allow connections from your domain
   );
   next();
 });
