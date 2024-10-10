@@ -39,8 +39,8 @@ app.use(
         defaultSrc: ["'self'"], // Only allow content from your own domain by default
         imgSrc: ["'self'", "data:", "https://res.cloudinary.com"], // Allow images from your own site, data URIs, and Cloudinary
         scriptSrc: ["'self'"], // Allow scripts from your own domain
-        styleSrc: ["'self'"], // Allow styles from your own domain
-        fontSrc: ["'self'"], // Allow fonts from your own domain
+        styleSrc: ["'self'", "https://fonts.googleapis.com/"], // Allow styles from your own domain
+        fontSrc: ["'self'", "https://fonts.googleapis.com/"], // Allow fonts from your own domain
         connectSrc: ["'self'"], // Allow connections (e.g., API requests) to your own domain
       },
     },

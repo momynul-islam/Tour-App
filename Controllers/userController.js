@@ -1,5 +1,5 @@
 const multer = require("multer");
-const sharp = require("sharp");
+const cloudinary = require("cloudinary").v2;
 
 const User = require("../Models/User");
 const catchAsync = require("../Utils/catchAsync");
@@ -20,6 +20,13 @@ const upload = multer({
   fileFilter: multerFilter,
 });
 
+// Cloudinary config
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET_KEY,
+});
+
 exports.uploadUserPhoto = upload.single("photo");
 
 exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
@@ -27,11 +34,22 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
 
   req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
 
-  await sharp(req.file.buffer)
-    .resize(100, 100)
-    .toFormat("jpeg")
-    .jpeg({ quality: 90 })
-    .toFile(`Public/img/users/${req.file.filename}`);
+  const userImageResult = await new Promise((resolve, reject) => {
+    cloudinary.uploader
+      .upload_stream(
+        {
+          folder: "users",
+          transformation: [{ width: 100, height: 100, crop: "fill" }],
+        },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        }
+      )
+      .end(req.file.buffer);
+  });
+
+  req.body.photo = userImageResult.secure_url;
 
   next();
 });
@@ -78,7 +96,7 @@ exports.updateUser = catchAsync(async (req, res, next) => {
   const filteredBody = filterObj(req.body, "name", "email");
   if (req.file) {
     deleteCoverImage(req.user.photo, "users");
-    filteredBody.photo = req.file.filename;
+    filteredBody.photo = req.body.photo;
   }
 
   const updatedUser = await User.findByIdAndUpdate(req.user._id, filteredBody, {
