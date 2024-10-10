@@ -31,22 +31,21 @@ app.use(express.static(path.join(__dirname, "Public")));
 app.use(cors());
 app.options("*", cors());
 
-// csp
-app.use((req, res, next) => {
-  res.setHeader(
-    "Content-Security-Policy",
-    "default-src 'https://tour-app-zt4w.onrender.com/'; " +
-      "img-src 'https://tour-app-zt4w.onrender.com/' data: https://res.cloudinary.com; " + // Allow images from your domain, Cloudinary, and inline images
-      "script-src 'https://tour-app-zt4w.onrender.com/'; " + // Only allow scripts from your domain
-      "style-src 'https://tour-app-zt4w.onrender.com/'; " + // Only allow styles from your domain
-      "font-src 'https://tour-app-zt4w.onrender.com/'; " + // Only allow fonts from your domain
-      "connect-src 'https://tour-app-zt4w.onrender.com/';" // Only allow connections from your domain
-  );
-  next();
-});
-
 // Set security HTTP headers
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"], // Only allow content from your own domain by default
+        imgSrc: ["'self'", "data:", "https://res.cloudinary.com"], // Allow images from your own site, data URIs, and Cloudinary
+        scriptSrc: ["'self'"], // Allow scripts from your own domain
+        styleSrc: ["'self'"], // Allow styles from your own domain
+        fontSrc: ["'self'"], // Allow fonts from your own domain
+        connectSrc: ["'self'"], // Allow connections (e.g., API requests) to your own domain
+      },
+    },
+  })
+);
 
 // Limit requests from same API
 const limiter = rateLimit({
