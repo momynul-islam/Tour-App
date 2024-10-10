@@ -31,5 +31,5 @@ Technologies - Express js, Multer, Stripe, Mongoose, Pug, Nodemailer.
 **admin_email: test@gmail.com**
 **admin_pass: test1234**
 
-[Live link](https://tour-app-zt4w.onrender.com/) (deployed on render)
+[Live link](https://tour-app-zt4w.onrender.com/) (deployed on render) **it may take some time like 60s to response first time**
 [Source code](https://github.com/momynul-islam/Tour-App)
